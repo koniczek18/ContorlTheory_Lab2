@@ -48,7 +48,7 @@ def zadanie1(active):
         printer(A1, Atf1, B1, Btf1, C1, Ctf1, D, Dtf1)
         printer(A2, Atf2, B2, Btf2, C2, Ctf2, D, Dtf2)
         printer(A3, Atf3, B3, Btf3, C3, Ctf3, D, Dtf3)
-        # 1.4 Macierze A,B,C,D otrzymane przez funkcje scipy.signal.StateSpace oraz scipy.signal.tf2ss są różne
+        # 1.3 Macierze A,B,C,D otrzymane przez funkcje scipy.signal.StateSpace oraz scipy.signal.tf2ss są różne
         #    Jest to spowodowane tym że ta sama transmitancja może mieć różną postać w równaniach stanu
         #
         # symulacje
@@ -93,8 +93,8 @@ def zadanie1(active):
             plt.plot(Tss3, Yss3, color='r', label='Ss3',linestyle='dashdot')
             plt.plot(Ttran3, Ytran3, color='g', label='Transformed 3',linestyle='dotted')
             plt.legend()
-        # 1.4 Przebieg wyjścia jest taki sam dla wszystkich (StateSpace, TF, TF2SS) reprezentacji
-        #    Trajektorie zmiennych stanów nie muszą być takie same
+        # 1.4a Przebieg wyjścia jest taki sam dla wszystkich (StateSpace, TF, TF2SS) reprezentacji
+        # 1.4b Trajektorie zmiennych stanów nie muszą być takie same
         #System 1
         ssSys1=sig.lti(A1, B1, C1, D)
         TranSys1=sig.lti(Atf1, Btf1, Ctf1, Dtf1)
@@ -135,6 +135,34 @@ def zadanie1(active):
         # 1.5b Definicja transformaty Laplace'a, zakłada zerowe warunki początkowe, więc aby przestawić układ z niezerowymi war. pocz.
         #      musimy wprowadzić zmiany w definicji, a w rezultacie w transmitancji
 
+def zadanie2(active):
+    if active:
+        #System 1
+        A1=np.array([[-4,-1],[-2,-1]])
+        B1=np.array([[2],[1]])
+        C1=np.array([3,-4])
+        D1=np.array([1])
+        tf1=sig.ss2tf(A1,B1,C1,D1)
+        print('System 1\nnum',tf1[0],'\nden',tf1[1],'\n')
+        # System 2
+        A2 = np.array([[-1,0,1], [-6,-3,5],[-5,-2,4]])
+        B2 = np.array([[0], [1],[1]])
+        C2 = np.array([1,1,1])
+        D2 = np.array([0])
+        tf2 = sig.ss2tf(A2, B2, C2, D2)
+        print('System 2\nnum', tf2[0], '\nden', tf2[1], '\n')
+        # System 3
+        A3 = np.array([[-3, 1.25,-0.75, -2.75], [6, 3,-3.5,-6], [0,-1,0,1],[-6, 5,-4.5,-6]])
+        B3 = np.array([[0.5], [1], [0],[1]])
+        C3 = np.array([2,0,0,0])
+        D3 = np.array([0])
+        tf3 = sig.ss2tf(A3, B3, C3, D3)
+        print('System 3\nnum', tf3[0], '\nden', tf3[1], '\n')
+        # wyniki w niektórych przypadkach zawierają błędy spowodowane błędami numerycznymi
+        # 2.2a - Nie, równania te opisują konkretny system, a 1 system może mieć 1 reprezentację w postaci transmitancji,
+        #        ale wiele w postaci równań stanu
+        # 2.2b - Zależność G(s)=C*inv(s*I-A)*B+D obowiązuje w każdym przypadku
 
 if __name__ == '__main__':
     zadanie1(True)
+    zadanie2(True)
