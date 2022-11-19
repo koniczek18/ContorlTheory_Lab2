@@ -13,6 +13,7 @@ def printer(A1, A2, B1, B2, C1, C2, D1, D2):
     print('C2', C2)
     print('D1', D1)
     print('D2', D2)
+    print('\n')
     '''
     funkcja do wyświetlania 2 systemów celem ich porównania
     '''
@@ -60,54 +61,79 @@ def zadanie1(active):
         Ttf3, Ytf3 = sig.step2(tf3)
         Tss3, Yss3 = sig.step2(ss3)
         Ttran3, Ytran3 = sig.step2([Atf3, Btf3, Ctf3, Dtf3])
+        # wyświetlanie wykresów zmienić zmieniając instukjcę warunkową przed kodem
+        #
         # System 1
-        plt.figure(0)
-        plt.title('Tf1')
-        plt.plot(Ttf1, Ytf1, color='b')
-        plt.figure(1)
-        plt.title('Ss1')
-        plt.plot(Tss1, Yss1, color='r')
-        plt.figure(2)
-        plt.title('Transformed 1')
-        plt.plot(Ttran1, Ytran1, color='g')
+        if True:
+            plt.figure('System 1')
+            plt.title('System 1')
+            plt.xlabel('Time')
+            plt.ylabel('Value')
+            plt.plot(Ttf1, Ytf1, color='b',label='Tf1',linestyle='dashed')
+            plt.plot(Tss1, Yss1, color='r',label='Ss1',linestyle='dashdot')
+            plt.plot(Ttran1, Ytran1, color='g',label='Transformed 1',linestyle='dotted')
+            plt.legend()
         # System 2
-        plt.figure(3)
-        plt.title('Tf2')
-        plt.plot(Ttf2, Ytf2, color='b')
-        plt.figure(4)
-        plt.title('Ss2')
-        plt.plot(Tss2, Yss2, color='r')
-        plt.figure(5)
-        plt.title('Transformed 1')
-        plt.plot(Ttran2, Ytran2, color='g')
+        if True:
+            plt.figure('System 2')
+            plt.title('System 2')
+            plt.xlabel('Time')
+            plt.ylabel('Value')
+            plt.plot(Ttf2, Ytf2, color='b', label='Tf2',linestyle='dashed')
+            plt.plot(Tss2, Yss2, color='r', label='Ss2',linestyle='dashdot')
+            plt.plot(Ttran2, Ytran2, color='g', label='Transformed 2',linestyle='dotted')
+            plt.legend()
         # System 3
-        plt.figure(6)
-        plt.title('Tf3')
-        plt.plot(Ttf3, Ytf3, color='b')
-        plt.figure(7)
-        plt.title('Ss3')
-        plt.plot(Tss3, Yss3, color='r')
-        plt.figure(8)
-        plt.title('Transformed 3')
-        plt.plot(Ttran3, Ytran3, color='g')
-        # 1.5 Przebieg wyjścia jest taki sam dla wszystkich (StateSpace, TF, TF2SS) reprezentacji
+        if True:
+            plt.figure('System 3')
+            plt.title('System 3')
+            plt.xlabel('Time')
+            plt.ylabel('Value')
+            plt.plot(Ttf3, Ytf3, color='b', label='Tf3',linestyle='dashed')
+            plt.plot(Tss3, Yss3, color='r', label='Ss3',linestyle='dashdot')
+            plt.plot(Ttran3, Ytran3, color='g', label='Transformed 3',linestyle='dotted')
+            plt.legend()
+        # 1.4 Przebieg wyjścia jest taki sam dla wszystkich (StateSpace, TF, TF2SS) reprezentacji
         #    Trajektorie zmiennych stanów nie muszą być takie same
-        # TODO 1.6
-        Tnztf1, Ynztf1 = sig.step(tf1, np.array([3]))
-        Tnzss1, Ynzss1 = sig.step(ss1, np.array([3]))
-        Tnztran1, Ynztran1 = sig.step([Atf1, Btf1, Ctf1, Dtf1], np.array([3]))
-        # TODO 2 system
-        # TODO 3 system
-        plt.figure(9)
-        plt.title('Tf1 - ini [3]')
-        plt.plot(Tnztf1, Ynztf1, color='b')
-        plt.figure(10)
-        plt.title('Ss1 - ini [3]')
-        plt.plot(Tnzss1, Ynzss1, color='r')
-        plt.figure(11)
-        plt.title('Transformed 1 - ini [3]')
-        plt.plot(Tnztran1, Ynztran1, color='g')
-        plt.plot()
+        #System 1
+        ssSys1=sig.lti(A1, B1, C1, D)
+        TranSys1=sig.lti(Atf1, Btf1, Ctf1, Dtf1)
+        Tnzss1, Ynzss1 = sig.step2(ssSys1, X0=np.array([3]))
+        Tnztran1, Ynztran1 = sig.step2(TranSys1, X0=np.array([3]))
+        # System 2
+        ssSys2 = sig.lti(A2, B2, C2, D)
+        TranSys2 = sig.lti(Atf2, Btf2, Ctf2, Dtf2)
+        Tnzss2, Ynzss2 = sig.step2(ssSys2, X0=np.array([3,3]))
+        Tnztran2, Ynztran2 = sig.step2(TranSys2, X0=np.array([3,3]))
+        # System 3
+        ssSys3 = sig.lti(A3, B3, C3, D)
+        TranSys3 = sig.lti(Atf3, Btf3, Ctf3, Dtf3)
+        Tnzss3, Ynzss3 = sig.step2(ssSys3, X0=np.array([3,3,3]))
+        Tnztran3, Ynztran3 = sig.step2(TranSys3, X0=np.array([3,3,3]))
+        #System 1
+        if True:
+            plt.figure('System 1 - initial conditions')
+            plt.title('System 1 - initial conditions')
+            plt.plot(Tnzss1, Ynzss1, color='b',label='Ss1 - ini [3]',linestyle='dashed')
+            plt.plot(Tnztran1, Ynztran1, color='r',label='Transformed1 - ini [3]',linestyle='dotted')
+            plt.legend()
+        if True:
+            plt.figure('System 2 - initial conditions')
+            plt.title('System 2 - initial conditions')
+            plt.plot(Tnzss2, Ynzss2, color='b', label='Ss2 - ini [3]', linestyle='dashed')
+            plt.plot(Tnztran2, Ynztran2, color='r', label='Transformed2 - ini [3]', linestyle='dotted')
+            plt.legend()
+        if True:
+            plt.figure('System 3 - initial conditions')
+            plt.title('System 3 - initial conditions')
+            plt.plot(Tnzss3, Ynzss3, color='b', label='Ss3 - ini [3]', linestyle='dashed')
+            plt.plot(Tnztran3, Ynztran3, color='r', label='Transformed3 - ini [3]', linestyle='dotted')
+            plt.legend()
+        plt.show()
+        # 1.5a Dla różnych reprezentacji dobór warunków początkowych nie jest równoznaczny
+        #      i nie uzyskuje się tych samych przebiegów
+        # 1.5b Definicja transformaty Laplace'a, zakłada zerowe warunki początkowe, więc aby przestawić układ z niezerowymi war. pocz.
+        #      musimy wprowadzić zmiany w definicji, a w rezultacie w transmitancji
 
 
 if __name__ == '__main__':
